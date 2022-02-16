@@ -1,76 +1,42 @@
-let seconds = 0
-let minutes = 0
-let hours = 0
+let counter = 0;
+const array = [];
 
-let displaySeconds = 0
-let displayMinutes = 0
-let displayHours = 0
+const updateArray = () => {
+  if (array.length === 0) {
+    array.push("0");
+  } else {
+    array.push(`${array[counter - 1]}${counter}`);
+  }
+  counter = counter + 1;
+};
 
-let interval = null
-let status = 'stopped'
+const clickHandler = () => {
+  updateArray();
+  const display = document.getElementById("display");
+  display.innerHTML = "";
+  console.log("ARRAY", counter);
+  array.forEach((num, index) => {
+    const paragraph = document.createElement("p");
 
-function stopWatch() {
-    seconds++
-    if(seconds / 60 === 1)
-    {
-        seconds = 0
-        minutes++
-        if(minutes / 60 === 1)
-        {
-            minutes = 0
-            hours++
-        }
+    if (index === 0) {
+      paragraph.innerHTML = num;
+    } else if (index < 10) {
+      paragraph.innerHTML = `${num.substring(
+        0,
+        num.length - 1
+      )}:${num.substring(num.length - 1, num.length)}`;
+    } else if (index < 100) {
+      paragraph.innerHTML = `${num.substring(
+        0,
+        num.length - 2
+      )}:${num.substring(num.length - 2, num.length)}`;
+    } else {
+      paragraph.innerHTML = `${num.substring(
+        0,
+        num.length - 3
+      )}:${num.substring(num.length - 3, num.length)}`;
     }
 
-    if(seconds < 10)
-    {
-        displaySeconds = "0" + seconds.toString()
-    }
-    else {
-        displaySeconds = seconds
-    }
-    if(minutes < 10)
-    {
-        displayMinutes = "0" + minutes.toString()
-    }
-    else {
-        displayMinutes = minutes
-    }
-    if(hours < 10)
-    {
-        displayHours = "0" + hours.toString()
-    }
-    else {
-        displayHours = hours
-    }
-
-    document.getElementById("display").innerHTML = displayHours + ':' + displayMinutes + ':' + displaySeconds
-}
-
-
-
-function startStop() {
-    if(status === 'stopped')
-    {
-        interval = window.setInterval(stopWatch, 1000)
-        document.getElementById("startStop").innerHTML = "Stop"
-        status = "started"
-    }
-    else {
-        window.clearInterval(interval)
-        document.getElementById("startStop").innerHTML = "Start"
-        status = 'stopped'
-    }
-}
-
-function reset () {
-    window.clearInterval(interval)
-    seconds = 0
-    minutes = 0
-    hours = 0
-    status = "stopped"
-    document.getElementById("display").innerHTML = "00:00:00"
-    document.getElementById("startStop").innerHTML = "Start"
-
-
-}
+    display.appendChild(paragraph);
+  });
+};
