@@ -14,7 +14,6 @@ const clickHandler = () => {
   updateArray();
   const display = document.getElementById("display");
   display.innerHTML = "";
-  console.log("ARRAY", counter);
   array.forEach((num, index) => {
     const paragraph = document.createElement("p");
 
